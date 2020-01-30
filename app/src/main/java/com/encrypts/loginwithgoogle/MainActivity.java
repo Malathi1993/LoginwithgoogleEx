@@ -29,7 +29,7 @@ private SignInButton SignIn;
 private TextView Name;
 private TextView Email;
 private ImageView prof_pic;
-private GoogleApiClient apiClient;
+private GoogleApiClient googleApiClient;
 private static final int REQ_CODE = 9001;
 
     @Override
@@ -46,7 +46,7 @@ private static final int REQ_CODE = 9001;
         SignOut.setOnClickListener(this);
         Prof_Section.setVisibility(View.GONE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN).requestEmail().build();
-        GoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
     }
 
@@ -70,13 +70,13 @@ private static final int REQ_CODE = 9001;
 
     private void signIn()
     {
-        Intent intent = Auth.GOOGLE_SIGN_IN_API.getSignInIntent(GoogleApiClient);
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
          startActivityForResult(intent,REQ_CODE );
     }
 
     private void signout()
       {
-             Auth.GoogleSignInApi.signOut(GoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+             Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
      @Override
          public void onResult(@NonNull Status status) {
            }
@@ -91,7 +91,7 @@ private static final int REQ_CODE = 9001;
           String Email = account.getEmail();
           String img_url = account.getPhotoUrl().toString();
           Name.setText(name);
-          Email.setText(Email);
+          Email.setText(email);
           img_url(this).into(prof_pic);
           updateUI(true);
       }
@@ -103,15 +103,15 @@ private static final int REQ_CODE = 9001;
     }
     private void updateUI(boolean isLogin) {
         if (isLogin) {
-            prof_section.setVisibility(View.VISIBLE);
+            prof_Section.setVisibility(View.VISIBLE);
             SignIn.setVisibility(View.GONE);
         } else {
-            prof_section.setVisibility(View.GONE);
+            prof_Section.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
         }
     }
     @Override
-    protected  void  onActivityResult (int requestCode,resultCode,data);
+    protected  void  onActivityResult (int requestCode,resultCode, Intent data)
     {
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode==REQ_CODE)
