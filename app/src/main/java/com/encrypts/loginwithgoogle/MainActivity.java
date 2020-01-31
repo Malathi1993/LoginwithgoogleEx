@@ -45,7 +45,7 @@ private static final int REQ_CODE = 9001;
         SignIn.setOnClickListener(this);
         SignOut.setOnClickListener(this);
         Prof_Section.setVisibility(View.GONE);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN).requestEmail().build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
     }
@@ -54,10 +54,10 @@ private static final int REQ_CODE = 9001;
     public void onClick(View v) {
       switch  (v.getId())
       {
-          case:R.id.sign_in_button;
+          case R.id.sign_in_button:
           signIn();
           break;
-          case:R.id.btn_logout;
+          case R.id.btn_logout:
           signout();
           break;
       }
@@ -91,8 +91,8 @@ private static final int REQ_CODE = 9001;
           String Email = account.getEmail();
           String img_url = account.getPhotoUrl().toString();
           Name.setText(name);
-          Email.setText(email);
-          img_url(this).into(prof_pic);
+          this.Email.setText(Email);
+          //img_url(this).into(prof_pic);
           updateUI(true);
       }
       else
@@ -103,15 +103,15 @@ private static final int REQ_CODE = 9001;
     }
     private void updateUI(boolean isLogin) {
         if (isLogin) {
-            prof_Section.setVisibility(View.VISIBLE);
+            Prof_Section.setVisibility(View.VISIBLE);
             SignIn.setVisibility(View.GONE);
         } else {
-            prof_Section.setVisibility(View.GONE);
+            Prof_Section.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
         }
     }
     @Override
-    protected  void  onActivityResult (int requestCode,resultCode, Intent data)
+    protected  void  onActivityResult (int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode==REQ_CODE)
